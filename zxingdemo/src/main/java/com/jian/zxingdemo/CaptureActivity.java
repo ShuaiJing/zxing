@@ -1,5 +1,6 @@
 package com.jian.zxingdemo;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,9 +11,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +43,7 @@ import com.google.zxing.ResultPoint;
 import com.jian.zxingdemo.camera.CameraManager;
 
 import java.io.IOException;
+import java.security.Permission;
 import java.text.DateFormat;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -94,6 +98,11 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         beepManager = new BeepManager(this);
         ambientLightManager = new AmbientLightManager(this);
         imageView = findViewById(R.id.result);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission_group.CAMERA}, 1);
+            requestPermissions(new String[]{Manifest.permission_group.STORAGE},1);
+        }
+
     }
 
     @Override
